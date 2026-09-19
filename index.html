@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0C1A2C">
+<meta name="description" content="五年前、妹は島から戻らなかった。夜の海を渡り、潮見荘へ。">
+<title>247｜潮見荘</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="game-shell">
+  <footer id="control-deck" aria-label="操作盤">
+    <button type="button" class="game-btn" id="btnNext" aria-label="次へ">次へ</button>
+    <button type="button" class="game-btn" id="btnDash" aria-label="早送り">早送り</button>
+    <div class="sys">
+      <button type="button" class="game-btn" id="btnMute" aria-label="音の切り替え">♪</button>
+      <button type="button" class="game-btn" id="btnPause" aria-label="一時停止">Ⅱ</button>
+    </div>
+  </footer>
+  <div id="game-stage">
+    <div id="screen-wrap">
+      <canvas id="bg" aria-hidden="true"></canvas>
+      <div class="scene" id="scene" aria-hidden="true">
+    <svg viewBox="0 0 640 400" preserveAspectRatio="xMidYMid slice">
+      <rect id="sky" width="640" height="220" fill="#0F2140"/>
+      <g id="stars" fill="#E8EEF4"><circle cx="60" cy="40" r="1.2"/><circle cx="140" cy="80" r="1"/><circle cx="230" cy="30" r="1.4"/><circle cx="330" cy="70" r="1"/><circle cx="410" cy="36" r="1.2"/><circle cx="600" cy="60" r="1"/><circle cx="470" cy="90" r=".9"/><circle cx="20" cy="120" r="1"/></g>
+      <rect id="sea" y="220" width="640" height="180" fill="#0A1A30"/>
+      <g id="lh">
+      <polygon class="road" id="road" points="512,222 528,222 470,400 400,400" fill="#F4E4A8"/>
+      <g id="beamg"><polygon class="beam" points="520,118 900,98 900,138" fill="#F4E4A8" opacity=".22"/></g>
+      <path id="cape" d="M440 222 L480 180 L560 170 L640 190 L640 222 Z" fill="#081426"/>
+      <g id="tower">
+        <rect x="496" y="162" width="14" height="12" fill="#D6DDE4"/>
+        <polygon points="494,163 503,156 512,163" fill="#8C5A4A"/>
+        <polygon points="510,174 530,174 526,131 514,131" fill="#EEF2F5"/>
+        <polygon points="512,160 528,160 527,152 513,152" fill="#B5503E"/>
+        <rect x="518" y="165" width="4" height="9" fill="#5A6878"/>
+        <rect x="509" y="127" width="22" height="4" fill="#4A5868"/>
+        <line x1="509" y1="123" x2="531" y2="123" stroke="#4A5868" stroke-width="1"/>
+        <rect id="lantern" x="514" y="112" width="12" height="15" fill="#F4E4A8" stroke="#4A5868" stroke-width="1.2"/>
+        <line x1="520" y1="112" x2="520" y2="127" stroke="#4A5868" stroke-width=".8"/>
+        <path d="M512 112 Q520 101 528 112 Z" fill="#B5503E"/>
+        <circle cx="520" cy="103" r="1.6" fill="#4A5868"/>
+      </g>
+      <circle id="lamp" cx="520" cy="119" r="13" fill="#F4E4A8" opacity=".35"/>
+      </g>
+      <line x1="0" y1="221" x2="640" y2="221" stroke="#2B4A70" stroke-width="1"/>
+
+      <g id="town" class="art">
+        <polygon points="0,222 0,188 40,188 40,174 72,174 72,194 110,194 110,168 150,168 150,186 200,186 200,176 240,176 240,198 290,198 290,182 330,182 330,196 380,196 380,206 440,206 456,222" fill="#1C2A3A"/>
+        <g fill="#F4E4A8"><rect x="50" y="180" width="6" height="5"/><rect x="122" y="176" width="6" height="5"/><rect x="210" y="184" width="6" height="5"/><rect x="300" y="188" width="6" height="5"/><rect x="350" y="200" width="6" height="4"/></g>
+        <rect x="118" y="196" width="46" height="12" fill="#B98A3A"/><rect x="250" y="204" width="34" height="10" fill="#6E8FA8"/>
+      </g>
+      <g id="inn" class="art">
+        <path d="M0 400 L0 234 L40 231 L250 231 L300 262 L370 304 L460 400 Z" fill="#06101E"/>
+        <rect x="60" y="150" width="170" height="82" fill="#121A28"/>
+        <polygon points="48,150 140,116 242,150" fill="#0A0F18"/>
+        <g fill="#2A3346"><rect x="78" y="164" width="18" height="14"/><rect x="118" y="164" width="18" height="14"/><rect x="158" y="164" width="18" height="14"/><rect x="198" y="164" width="18" height="14"/><rect x="78" y="200" width="18" height="14"/><rect x="118" y="200" width="18" height="14"/><rect x="158" y="200" width="18" height="14"/></g>
+        <rect x="196" y="198" width="22" height="34" fill="#3A3020"/>
+        <line x1="330" y1="232" x2="330" y2="283" stroke="#1E2A3A" stroke-width="3"/>
+        <rect x="325" y="281" width="10" height="4" fill="#1E2A3A"/>
+        <circle cx="330" cy="229" r="4" fill="#F4E4A8"/><circle class="flick" cx="330" cy="229" r="22" fill="#F4E4A8"/>
+      </g>
+      <g id="upwin" class="art"><rect x="198" y="164" width="18" height="14" fill="#F4E4A8"/><circle class="flick" cx="207" cy="171" r="20" fill="#F4E4A8"/></g>
+      <g id="ferry" class="art"><g class="bob">
+        <path d="M190 262 L390 262 L372 284 L206 284 Z" fill="#06101E"/>
+        <rect x="232" y="240" width="110" height="22" fill="#0B1728"/><rect x="300" y="226" width="6" height="14" fill="#0B1728"/>
+        <g fill="#F4E4A8"><rect x="244" y="246" width="12" height="8"/><rect x="266" y="246" width="12" height="8"/><rect x="288" y="246" width="12" height="8" opacity=".4"/><rect x="310" y="246" width="12" height="8"/></g>
+      </g></g>
+      <g id="fisher" class="art"><g class="bob">
+        <path d="M300 270 L420 270 L408 284 L312 284 Z" fill="#06101E"/>
+        <line x1="350" y1="270" x2="350" y2="218" stroke="#06101E" stroke-width="2"/>
+        <rect x="370" y="256" width="24" height="14" fill="#06101E"/><circle cx="398" cy="250" r="2.5" fill="#F4E4A8"/>
+      </g></g>
+      <g id="cliff" class="art">
+        <path d="M0 400 L0 320 L150 300 L330 285 L470 300 L640 315 L640 400 Z" fill="#050C18"/>
+        <polygon points="506,302 534,302 529,126 511,126" fill="#C9D3DD"/>
+        <rect x="509" y="108" width="22" height="18" fill="#F4E4A8"/>
+        <polygon points="505,108 520,95 535,108" fill="#6B7888"/>
+        <polygon points="40,330 70,318 96,332" fill="#0B1526"/><polygon points="160,314 186,304 204,316" fill="#0B1526"/>
+      </g>
+      <g id="shed" class="art">
+        <rect x="380" y="262" width="70" height="36" fill="#0B1526"/>
+        <polygon points="374,262 415,248 456,262" fill="#07101C"/>
+        <rect x="404" y="273" width="18" height="25" fill="#13213A"/>
+        <rect x="407" y="278" width="12" height="8" fill="#EDE5D0"/>
+      </g>
+      <g id="pier" class="art">
+        <polygon points="240,400 400,400 338,230 302,230" fill="#3A4A5C"/>
+        <g stroke="#2A3746" stroke-width="1.5"><line x1="290" y1="270" x2="350" y2="270"/><line x1="276" y1="310" x2="364" y2="310"/><line x1="260" y1="355" x2="380" y2="355"/></g>
+        <line x1="268" y1="332" x2="268" y2="212" stroke="#1A2533" stroke-width="3"/>
+        <rect x="263" y="330" width="10" height="5" fill="#1A2533"/>
+        <line x1="268" y1="214" x2="276" y2="214" stroke="#1A2533" stroke-width="2"/>
+        <circle cx="277" cy="217" r="4" fill="#F4E4A8"/>
+      </g>
+      <g id="woman" class="art">
+        <circle cx="318" cy="262" r="7" fill="#0B1420"/>
+        <polygon points="307,271 329,271 336,318 300,318" fill="#0B1420"/>
+      </g>
+      <g id="flash" class="art">
+        <polygon points="334,292 430,276 430,308" fill="#F4E4A8" opacity=".35"/>
+        <circle cx="334" cy="292" r="3.5" fill="#F4E4A8"/>
+      </g>
+      <g id="walls" class="art">
+        <path fill-rule="evenodd" d="M0 0 H640 V400 H0 Z M300 50 H580 V290 H300 Z" fill="#161624"/>
+        <rect x="300" y="50" width="280" height="240" fill="none" stroke="#3A3A52" stroke-width="6"/>
+        <line x1="440" y1="50" x2="440" y2="290" stroke="#3A3A52" stroke-width="4"/>
+        <rect x="288" y="290" width="304" height="10" fill="#2A2A3C"/>
+      </g>
+      <g id="easel" class="art">
+        <g stroke="#4A4A62" stroke-width="4"><line x1="92" y1="370" x2="132" y2="170"/><line x1="172" y1="370" x2="132" y2="170"/><line x1="132" y1="210" x2="132" y2="380"/></g>
+        <rect x="78" y="178" width="112" height="82" fill="#0E1C33" stroke="#4A4A62" stroke-width="3"/>
+        <line x1="80" y1="206" x2="188" y2="206" stroke="#2B4A70"/>
+        <polygon points="150,206 154,206 132,258 120,258" fill="#F4E4A8" opacity=".85"/>
+      </g>
+      <g id="curtain" class="art" fill="#3A2E44"><rect x="276" y="40" width="30" height="262"/><rect x="574" y="40" width="30" height="262"/></g>
+      <g id="sillflash" class="art">
+        <rect x="330" y="276" width="38" height="13" rx="3" fill="#8A94A0"/>
+        <circle class="flick" cx="370" cy="282" r="34" fill="#F4E4A8"/>
+        <polygon points="370,282 480,248 480,316" fill="#F4E4A8" opacity=".22"/>
+      </g>
+      <g id="letter" class="art"><g transform="rotate(-4 320 215)">
+        <rect x="220" y="100" width="200" height="230" fill="#EDE5D0"/>
+        <g stroke="#9A8B6E" stroke-width="1.5"><line x1="245" y1="140" x2="395" y2="140"/><line x1="245" y1="166" x2="395" y2="166"/><line x1="245" y1="192" x2="395" y2="192"/><line x1="245" y1="218" x2="395" y2="218"/><line x1="245" y1="244" x2="395" y2="244"/><line x1="245" y1="270" x2="340" y2="270"/><line x1="360" y1="300" x2="395" y2="300"/></g>
+      </g></g>
+      <g id="postcard" class="art"><g transform="rotate(3 320 200)">
+        <rect x="200" y="110" width="240" height="160" fill="#EDE5D0"/>
+        <rect x="212" y="122" width="216" height="136" fill="#0E1C33"/>
+        <line x1="212" y1="178" x2="428" y2="178" stroke="#2B4A70"/>
+        <polygon points="330,178 336,178 330,258 300,258" fill="#F4E4A8"/>
+        <text x="410" y="250" font-size="14" fill="#EDE5D0" font-family="serif">H</text>
+      </g></g>
+      <g id="sun" class="art">
+        <polygon points="462,224 478,224 540,400 400,400" fill="#F6D38A" opacity=".45"/>
+        <path d="M440 222 A30 30 0 0 1 500 222 Z" fill="#F6D38A"/>
+        <circle cx="470" cy="222" r="70" fill="#F6D38A" opacity=".18"/>
+      </g>
+      <g id="walker" class="art">
+        <rect x="0" y="330" width="640" height="70" fill="#2E3E50"/>
+        <line x1="0" y1="330" x2="640" y2="330" stroke="#4C5E72" stroke-width="2"/>
+        <circle cx="382" cy="288" r="8" fill="#0B1420"/>
+        <polygon points="372,297 392,297 398,344 366,344" fill="#0B1420"/>
+        <rect x="393" y="312" width="12" height="16" rx="2" fill="#0B1420"/>
+        <rect x="360" y="312" width="10" height="7" fill="#EDE5D0"/>
+      </g>
+      <g id="farlight" class="art">
+        <polygon points="358,222 362,222 404,290 326,290" fill="#F4E4A8" opacity=".3"/>
+        <circle class="flick" cx="360" cy="221" r="10" fill="#F4E4A8"/>
+        <circle cx="360" cy="221" r="2.6" fill="#F4E4A8"/>
+      </g>
+      <g id="postcard2" class="art"><g transform="rotate(-8 490 276)">
+        <rect x="470" y="260" width="42" height="30" fill="#EDE5D0"/>
+        <rect x="473" y="263" width="36" height="24" fill="#0E1C33"/>
+        <polygon points="490,272 492,272 489,287 482,287" fill="#F4E4A8"/>
+      </g></g>
+    </svg>
+    <div class="place" id="place">潮見荘</div>
+    <div class="endcard" id="endcard"></div>
+  </div>
+      <div class="box" id="box" aria-live="polite"></div>
+    </div>
+  </div>
+</div>
+<dialog id="pauseDlg" aria-labelledby="pauseTitle">
+  <h2 id="pauseTitle">一時停止</h2>
+  <div class="col">
+    <button type="button" class="game-btn" id="btnResume">再開</button>
+    <button type="button" class="game-btn" id="btnMuteDlg">音の切り替え</button>
+    <button type="button" class="game-btn" id="btnQuit">タイトルへ</button>
+  </div>
+</dialog>
+<script src="script.js"></script>
+</body>
+</html>
