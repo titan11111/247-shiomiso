@@ -179,7 +179,7 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden){setPaused(
 window.addEventListener('pageshow',()=>{try{if(AC&&AC.state==='suspended'&&!paused)AC.resume();}catch(e){}});
 
 const S = {
-  prologue:{bgm:"coastal",art:["ferry"],place:"最終便の連絡船",mood:"sea",lines:[
+  prologue:{bgm:"coastal",bgmCue:{2:"paper",5:"coastal"},art:["ferry"],place:"最終便の連絡船",mood:"sea",lines:[
     "夜の海は、昼間とはまるで別の生き物のようだった。",
     "小さな連絡船の客は、私と、網を膝に抱えた老人がひとりだけ。",
     "膝の上には、ひと月前に届いた封筒。差出人は「潮見荘　女将　田所ミツ」。",
@@ -214,7 +214,7 @@ const S = {
     "女将｜それ以上は、あの子のもんです。わたしが勝手に話してよかことじゃなか。",
     "私は紙を開かないまま、ポケットにしまった。答えは、自分で探すしかない。"
   ],next:"night"},
-  night:{bgm:"paper",art:["walls", "easel"],place:"二階の奥の部屋",mood:"sea",lines:[
+  night:{bgm:"paper",bgmCue:{1:"coastal"},art:["walls", "easel"],place:"二階の奥の部屋",mood:"sea",lines:[
     "女将が下がり、部屋にひとりになった。",
     "灯りを消すと、窓の向こうで灯台がゆっくりと回っている。",
     "光が海を渡るたび、黒い水の上に一瞬だけ白い道が生まれ、消えた。",
@@ -222,7 +222,7 @@ const S = {
   ],choice:{q:"この夜を、どう過ごす？",opts:[
     {t:"窓から海を見る",f:"accept",go:"c2a"},
     {t:"灯台まで行く",f:"truth",go:"c2b"}]}},
-  c2a:{bgm:"paper",art:["walls", "easel"],place:"二階の奥の部屋",mood:"sea",lines:[
+  c2a:{bgm:"coastal",art:["walls", "easel"],place:"二階の奥の部屋",mood:"sea",lines:[
     "窓を開けると、潮の匂いが流れこんできた。",
     "光の道は、何度も律儀に、この窓の下までやってくる。",
     "五年間、私は答えを探していた。答えさえわかれば、自分を許せる気がしていた。",
@@ -230,7 +230,7 @@ const S = {
     "私｜……届いてたよ、遥。私が、見ようとしなかっただけ。",
     "声に出したら、涙が止まらなくなった。"
   ],next:"morning"},
-  c2b:{bgm:"land",art:["cliff"],cue:{"2": ["sheddoor", "doorcard"], "3": ["postcard"], "7": ["sheddoor"]},place:"岬の灯台",placeCue:{2:"物置小屋",3:"絵葉書",7:"物置小屋"},mood:"sea",lines:[
+  c2b:{bgm:"land",bgmCue:{2:"paper",7:"land"},art:["cliff"],cue:{"2": ["sheddoor", "doorcard"], "3": ["postcard"], "7": ["sheddoor"]},place:"岬の灯台",placeCue:{2:"物置小屋",3:"絵葉書",7:"物置小屋"},mood:"sea",lines:[
     "岬への坂道を、手探りで上った。",
     "灯台の真下。崖の向こうに、五年前、遥のスケッチブックが見つかった岩場が見えた。",
     "灯台の古い物置小屋の扉に、一枚の絵葉書が画鋲で留めてあった。",
@@ -268,7 +268,7 @@ const S = {
     "そして明日からは、ちゃんと閉めて眠ろう。",
     "光の道は見えない。けれど私は、その上を渡っている気がした。"
   ]},
-  endB:{bgm:"water",art:["ferry"],cue:{"5": ["ferry", "postcard"], "6": ["ferry"]},place:"帰りの船",mood:"dawn",end:"B",lines:[
+  endB:{bgm:"water",bgmCue:{5:"paper",7:"water"},art:["ferry"],cue:{"5": ["ferry", "postcard"], "6": ["ferry"]},place:"帰りの船",mood:"dawn",end:"B",lines:[
     "帰りの連絡船に、網を抱えた老人が乗っていた。昨夜と同じ人だ。",
     "私｜あの。五年前の夏、朝の漁に出られましたか。",
     "老人は長いこと、海を見ていた。",
@@ -289,7 +289,7 @@ const S = {
     "気のせいだ、と思うことにした。",
     "光の道は、今夜も誰も連れてこない。それでも私は、灯りを消さない。"
   ]},
-  true1:{bgm:"paper",art:["walls", "easel"],cue:{"3": ["inn", "upwin"], "6": ["inn"]},place:"五年前　潮見荘",mood:"past",lines:[
+  true1:{bgm:"paper",bgmCue:{1:"coastal",3:"paper"},art:["walls", "easel"],cue:{"3": ["inn", "upwin"], "6": ["inn"]},place:"五年前　潮見荘",mood:"past",lines:[
     "五年前の夏。私――遥は、潮見荘の窓辺で、何も描けないキャンバスを眺めていた。",
     "窓の外で、灯台の光が海に道をつくる。――ああ、あれなら描ける。",
     "でも、描き上げたら帰らなきゃいけない。お姉ちゃんのいる、あのちゃんとした世界に。",
@@ -298,14 +298,14 @@ const S = {
     "遥｜帰ります。でも、家じゃないところに。一回くらい、自分で立ってみたいんです。",
     "ミツさんは何も言わず、裏の勝手口の鍵を開けておいてくれた。"
   ],next:"true2"},
-  true2:{bgm:"land",bgmCue:{4:"paper"},art:["cliff"],cue:{"2": ["fisher"], "4": ["fisher", "inn", "upwin"]},place:"五年前　夜明け前の岬",mood:"past",lines:[
+  true2:{bgm:"land",bgmCue:{2:"water",4:"paper"},art:["cliff"],cue:{"2": ["fisher"], "4": ["fisher", "inn", "upwin"]},place:"五年前　夜明け前の岬",mood:"past",lines:[
     "誰にも届かなかった絵のスケッチブックを、私は海に投げた。",
     "白い頁が一瞬ひらいて、黒い水に消えた。怖いくらい、身体が軽かった。",
     "桟橋では、網を積んだ漁船が待っていた。",
     "源さん｜乗るか。わしは何も見とらん。朝の漁に出ただけたい。",
     "振り返ると、潮見荘の二階の窓に、小さな灯りがともっていた。"
   ],next:"true3"},
-  true3:{bgm:"water",art:["town"],cue:{"5": ["town", "postcard"]},place:"五年後　本土の港町",mood:"dawn",lines:[
+  true3:{bgm:"water",bgmCue:{2:"paper",5:"coastal"},art:["town"],cue:{"5": ["town", "postcard"]},place:"五年後　本土の港町",mood:"dawn",lines:[
     "私は港町で、看板を描いて暮らしている。名前も残らない、でも毎日誰かが見てくれる絵。",
     "二年前、灯台守さん宛てに一枚だけ絵葉書を出した。島に届けば、それでよかった。",
     "ある日、ミツさんから手紙が来た。",
@@ -313,7 +313,7 @@ const S = {
     "私は、自分で立っていたつもりだった。でも本当は、ずっと誰かの灯りの中に立っていたんだ。",
     "その夜、私は絵葉書を描いた。夜の海に一本の光の道。右下に小さく「H」とだけ入れて。"
   ],next:"true4"},
-  true4:{bgm:"paper",art:["walls", "curtain", "postcard"],cue:{"2": ["walls", "curtain", "sillflash"]},place:"秋の終わり　姉の部屋",mood:"warm",end:"D",lines:[
+  true4:{bgm:"paper",bgmCue:{1:"coastal",3:"paper"},art:["walls", "curtain", "postcard"],cue:{"2": ["walls", "curtain", "sillflash"]},place:"秋の終わり　姉の部屋",mood:"warm",end:"D",lines:[
     "郵便受けに、差出人のない絵葉書が一枚。",
     "夜の海に、一本の光の道。水平線から、こちらの足もとへ。右下に、小さな「H」。",
     "私は棚の懐中電灯を手に取り、窓辺にそっと置いた。",

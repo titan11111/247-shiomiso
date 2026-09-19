@@ -1,5 +1,11 @@
 # 247-shiomiso LEARNINGS
 
+## 2026-09-19 文と絵に合わせて曲を増やす
+- 4曲は「シーン単位」だけだと窓の海や絵葉書で止まっていた。向き先が2行以上続くところだけ `bgmCue` を足した（1行切替はフェードに負ける）
+- 追加: プロローグ手紙、夜の窓、岬の絵葉書、エンドBの絵葉書、真1の光の道、真2の漁船、真3の手紙と夜絵、真4の絵葉書の海
+- 窓から海を見る夜（c2a）は部屋絵のまま Coastal。同じ曲への戻りは currentTime 継続
+- harness: `docs/harness-reports/247-shiomiso-2026-09-19T12-41-31-510Z.md` → PASS。通しで聴いた切替感は未検証
+
 ## 2026-09-19 iOS実装と公開
 - 本文と選択肢を pointerdown（bindTap）へ。最初のタップ／キーで Audio unlock。復帰時は AC.resume、ポーズ解除のジェスチャでBGM再開
 - `playsinline`、select/drag 抑止、`touch-action: none`（本文は pan-y）、打感 scale(0.92)
