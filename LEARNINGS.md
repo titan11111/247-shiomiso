@@ -1,5 +1,58 @@
 # 247-shiomiso LEARNINGS
 
+## 2026-09-19 iOS実装と公開
+- 本文と選択肢を pointerdown（bindTap）へ。最初のタップ／キーで Audio unlock。復帰時は AC.resume、ポーズ解除のジェスチャでBGM再開
+- `playsinline`、select/drag 抑止、`touch-action: none`（本文は pan-y）、打感 scale(0.92)
+- 証跡: `docs/harness-reports/247-shiomiso-2026-09-19T12-10-44-614Z.md` → PASS。シミュレータは起動したが `openurl` が timeout（Safariは白画面）。実機の見た目・音は未検証
+
+## 2026-09-19 場面BGMとクロスフェード
+- 4曲を場面に割当。夜海=Coastal Midnight／宿=Paper Walls／岬=Land Ends／朝と水平線=Water Meets Sky
+- 切替は次曲が canplay してから約2秒クロスフェード。同一曲は currentTime を保ったまま重ねる。ポーズ・ミュートはフェード後、読み込み完了してから pause
+- 到着・エンドC・真2は行キューで曲を変える。読むタップの中で次曲だけ play（4本同時 preload はしない）
+- 元MP3は192kbpsで17MBあったので AAC 80kbps m4a へ（公開実体 9MB）。元ファイルはフォルダから削除
+- 音量 0.22。iOSは element.volume を無視するので AudioContext の gain に載せた。文字送りSEは 0.055
+- harness: 起動時 preload=auto だと4本の GET が途中 abort して requestfailed。`preload=none`＋必要曲だけ、タイトルではまだ取らない
+- 証跡: `docs/harness-reports/247-shiomiso-2026-09-19T12-08-11-777Z.md` → PASS（通信量 1.77MB＝開始直後の1曲分）。iPhone実機の聞こえは未検証
+
+## 2026-09-19 「灯りは待つ人が持つ」を台詞から外す
+- 桟橋の朝は、持ち方・朝だと気づく間・無言の差し出しで渡す。格言と「大事にします」「私が待ちます」を削った
+- 受け取りは傷と空の手。拒否は「ここが空になると困る」。テーマは選択とエンド側に残す
+- 未検証: 通しプレイでの感情の着地（機械チェック対象外）
+
+## 2026-09-19 本文と景色の対応
+- 指摘: 「文字に景色を近づける」はレイアウトではなく、文が言っているものが見えていないこと
+- 物置の絵葉書の行で、遠い灯台のまま小さな小屋だった。扉のクローズアップ＋画鋲の絵葉書に差し替え。読む行は絵葉書本体、外したあとは空の扉
+- 手紙を持っている最後の行で letter を消していたのも戻した
+- harness: `docs/harness-reports/247-shiomiso-2026-09-19T11-55-37-647Z.md` → PASS
+
+## 2026-09-19 文字送りに紙音
+- 1字表示のたびに短いノイズ＋高音をWebAudioで重ねる。句読点・空白は鳴らさない。1字おきにしてbuzz化を避けた
+- ミュート・早送り・`prefers-reduced-motion` では鳴らさない
+- 実測: 文字送り中に AudioBufferSource が増える（10発／15字）。ミュート後は増えない
+- harness: `docs/harness-reports/247-shiomiso-2026-09-19T11-50-51-266Z.md` → PASS
+- 未検証: iPhone実機の聞こえ方
+
+## 2026-09-19 宿の軒に「潮見荘」看板
+- 宿SVGの軒下へ木の看板を追加。金の明朝で「潮見荘」
+- 縦のタイトルは家が中央に来るよう `xMinYMid` に寄せ、看板と見出しが重ならないよう見出し側を外した
+- harness: `docs/harness-reports/247-shiomiso-2026-09-19T11-48-50-897Z.md` → PASS
+- 未検証: iPhone実機
+
+## 2026-09-19 タイトルUIを帳場の夜へ
+- 指摘: タイトルが黄色い角丸ボタンの事務画面で、物語の空気と合っていない
+- 対処: 塗りボタンをやめて金の細線。既読は「― 未読」表ではなく四つの灯り。タイトルを情景の上に重ね、操作盤も同系の輪郭へ
+- 横画面はコピー左・操作右。夜の色を `data-theme="dark"` で固定（OSのライト設定で看板が消えるのを防ぐ）
+- 開始は pointerdown。操作盤の「次へ」は `click()` 経由だと発火しないので、直接 `go("prologue")` へ
+- harness: `docs/harness-reports/247-shiomiso-2026-09-19T11-44-24-757Z.md` → PASS
+- 未検証: iPhone実機
+
+## 2026-09-19 朝の桟橋で懐中電灯を照らさない
+- 指摘: 翌朝シーンで女将が懐中電灯を点けているのが不自然
+- 対処: 朝は消灯の実体（`torch`）だけを持たせ、照射ビーム（`flash`）は夜の桟橋（エンドC）に限定。本文も「スイッチを切る」から「消えたまま差し出す」へ
+- 残したもの: 五年間の癖・灯りの受け渡し・エンドCの夜待ちは変えていない
+- harness: `docs/harness-reports/247-shiomiso-2026-09-19T11-33-15-412Z.md` → 14項目 PASS
+- 目視: 朝は `flashShow=false` / 消灯の `torch` のみ。夜のエンドCはビームあり。iPhone実機は未実施
+
 ## 2026-09-19 フォルダ改名・ハーネス操作盤
 - `247-day071` → `247-shiomiso`。エントリを `shiomiso_game.html` から `index.html` へ。
 - SVG情景の下に背景canvasを置き、ハーネスの描画ループ判定を満たす。
